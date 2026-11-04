@@ -1,5 +1,7 @@
 # The 81-Mode Continuum Clay Variation: All-Time Invariant Theorem & Scaling Analysis
 
+> **Corrected-scope notice (2026-11-04).** This document records the original derivation. The independent [Clasy X3 proof](docs/CLASY-X3-PROOF.md) is the current reference for the implemented finite-field map and its limitations. The term called "viscosity" in the code is an additive coordinate-dependent drift, not the Navier–Stokes velocity-dependent viscous operator. The finite-field conserved total and bounded modular residues do not establish continuum PDE regularity, energy dissipation, or a physical singularity bound.
+
 This repository presents the **81-Mode Continuum Clay Variation** of the 3-adic shell model, extending the base 27-mode system into a 4D hypercube lattice ($n \times 3 \times 3 \times 3$ architecture with $n = 3$, giving $K = 3^4 = 81$ modes).
 
 It incorporates Asolaria's balanced ternary tribit architecture, the canonical Asolaria tribit kernel (ASI OS commit `c0dfee6`), an exact 81-point spherical Number-Theoretic Transform (NTT) prism, and an 81-trit Omega/Omnibit room rotor representation across 81 geometric rungs ($k_n = 3^n$, $n \in [0, 80]$).
@@ -70,7 +72,7 @@ Summing the viscous dissipation factors across all 81 modes:
 $$D_{81} = \sum_{n=0}^{80} 9^n \bmod P = 900\,647$$
 Because $9^{81} \equiv 198\,184 \pmod P$, the geometric series identity holds:
 $$8 \cdot D_{81} \equiv 9^{81} - 1 \equiv 198\,183 \pmod P$$
-Since $D_{81} \ne 0 \pmod P$, positive viscosity induces a non-zero linear drift.
+Since $D_{81} \ne 0 \pmod P$, the total has a nonzero drift **only when** $\nu\not\equiv0\pmod P$; in particular, a positive multiple of $P$ gives zero drift.
 
 ### The All-Time Invariant Theorem
 For any initial velocity field $u^{(0)} \in \mathbb{F}_P^{81}$ evolving under $u^{(t+1)} = \text{step}(u^{(t)})$, the shell total $Q(u) = \sum_{n=0}^{80} u_n \pmod P$ satisfies, for every $t \ge 0$:
@@ -81,7 +83,7 @@ is conserved for all time $t \ge 0$. $\blacksquare$
 
 ### Corollaries:
 1. **Inviscid Conservation ($\nu = 0$):** If $\nu = 0$, $Q(u^{(t)}) \equiv Q(u^{(0)})$ is strictly conserved for all $t$.
-2. **Periodic Permutation ($\nu > 0$):** Since $\nu D_{81} \not\equiv 0 \pmod P$, $t \mapsto Q(u^{(t)})$ is a cyclic permutation of $\mathbb{Z}/P\mathbb{Z}$ with exact period $P = 1\,000\,999$. Every residue is visited exactly once per period.
+2. **Scalar period (when $\nu\not\equiv0\pmod P$):** Because $P$ is prime and $D_{81}\not\equiv0\pmod P$, $t\mapsto Q(u^{(t)})$ visits each residue exactly once per $P$ steps. When $\nu\equiv0\pmod P$ (including positive multiples of $P$), the scalar total is constant. This is a statement about $Q$, not the period of the full state.
 
 ---
 
@@ -102,24 +104,17 @@ Across the tested Host8 ensembles and procedural room seeds:
 
 ## 5. The Continuum Clay Variation & Beale-Kato-Majda Analysis
 
-### The Viscous Domination Scaling
-At rung $n$:
-- Triad nonlinear transfer scales linearly with wavenumber: $NL_n \sim k_n = 3^n$.
-- Viscous dissipation scales quadratically with wavenumber: $\mathcal{D}_n = \nu k_n^2 = \nu 9^n$.
+### Scaling labels versus physical damping
 
-For rungs $n \ge 18$:
-$$\frac{\mathcal{D}_n}{k_n} = \nu \cdot 3^n \gg 1$$
-At rung $n = 80$:
-$$\mathcal{D}_{80} = \nu \cdot 9^{80} = \nu \cdot 3^{160} \approx \nu \times 2.16 \times 10^{76}$$
-Viscous damping exceeds non-linear energy transport by dozens of orders of magnitude.
+The formal shell labels are $k_n=3^n$. The implemented recurrence subtracts $\nu 9^n \pmod P$ **without multiplying by $u_n$**. Consequently the ratio of the *unreduced labels* $9^n/3^n=3^n$ is not a rigorous balance between viscous damping and nonlinear energy transport. Finite-field residues do not carry a monotone order in which one can infer dissipative domination. The original "viscous domination" claim is superseded by [Clasy X3, Section 6](docs/CLASY-X3-PROOF.md#6-unreduced-norms-and-continuum-regularity).
 
 ### The Discrete-to-Continuum Bridge
 The [Clay Mathematics Millennium Prize problem](https://www.claymath.org/wp-content/uploads/2022/06/navierstokes.pdf) requires proving smooth solutions in $\mathbb{R}^3$ for all time under the Beale-Kato-Majda (BKM) criterion:
 $$\int_0^T \|\omega(\cdot, t)\|_{L^\infty} dt < \infty \quad \forall T < \infty$$
 
-While the 81-mode discrete model unconditionally enforces:
+The finite-field implementation reports the **modular residue**
 $$\Omega_{\text{field}}(t) = \left(\frac{1}{2}\sum_{n=0}^{80} 9^n u_n(t)^2\right) \bmod P < P$$
-Because this bound is an exact residue property of the finite field $\mathbb{F}_P$, a complete PDE proof requires:
+This is a residue identity, not a physical vorticity bound. A complete PDE proof would require:
 1. Reconstructing a continuous divergence-free velocity field $u(x, t) \in C^\infty(\mathbb{R}^3)$ from the 81 shell amplitudes.
 2. Proving that the unreduced Sobolev $H^s$ norms remain bounded independently of $P$ and $K$.
 3. Establishing that the discrete-to-continuum limit $K \to \infty$ converges strongly to a classical solution of the Navier-Stokes PDE.
