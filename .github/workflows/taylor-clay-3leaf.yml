@@ -1,0 +1,46 @@
+name: Taylor-Green to Clay 3-step 3-leaf bridge
+on:
+  pull_request:
+    paths:
+      - 'bridge/taylor-green/**'
+      - '.github/workflows/taylor-clay-3leaf.yml'
+      - 'src/lib.rs'
+  push:
+    branches: [main]
+    paths:
+      - 'bridge/taylor-green/**'
+      - '.github/workflows/taylor-clay-3leaf.yml'
+      - 'src/lib.rs'
+permissions:
+  contents: read
+jobs:
+  bridge:
+    name: exact-3-steps-3-leaves
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact submitted Clay commit
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Checkout pinned Taylor-Green data and gate tables
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: JesseBrown1980/Taylor_green_regularity-resolved-and-solved
+          ref: ee71e0eea7fd61bfe5a45ebf2f590311742161f7
+          path: bridge/taylor-green/tg-source
+          persist-credentials: false
+      - name: Install Rust 1.81 with clippy and formatting
+        run: rustup toolchain install 1.81.0 --profile minimal --component clippy --component rustfmt
+      - name: Run pinned exact integer bridge, 3 leaves, fail-closed controls
+        run: bash bridge/taylor-green/run.sh
+      - name: Retain three leaf receipts and SHA256 index
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: taylor-clay-3leaf
+          path: |
+            bridge/taylor-green/out/LEAF-*.hbp
+            bridge/taylor-green/out/LEAVES.hbi
+            bridge/taylor-green/out/SHA256SUMS
+            bridge/taylor-green/out/RUN.hbp
+            bridge/taylor-green/out/NEGATIVE.hbp
+          if-no-files-found: warn

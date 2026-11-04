@@ -22,6 +22,12 @@
 
 > **Scope:** The all-time modular invariant is a theorem **of this specific finite-field map**. It is not a proof of Navier–Stokes regularity, viscosity-driven physical damping, or convergence to a continuum PDE. The original research name is retained for provenance.
 
+### Three-step Taylor–Green computational bridge: verified result
+
+[**Read the exact 3-step / 3-leaf comparison**](bridge/taylor-green/README.md) · [**Reproduce the bridge**](bridge/taylor-green/run.sh) · [**Independent receipt auditor**](bridge/taylor-green/verify_receipts.py).
+
+The Taylor–Green 24³ lattice converts **exactly** to Clay's 81 registers as signed momentum sums over 27 blocks and three axes. Three consecutive original Taylor–Green steps (TGV, shuffled, NULL) were replayed using SHA256-pinned inputs; the 81-register projection, conserved global momentum and three linked HBP leaves pass. **The map does not intertwine the nonlinear models:** all 81 TGV registers differ from an actual Clay one-step update at each of t=1,2,3. This is a useful, recorded negative result; **full state equivalence and continuum PDE correspondence remain OPEN**.
+
 ## The exact model
 
 | Parameter | Definition |

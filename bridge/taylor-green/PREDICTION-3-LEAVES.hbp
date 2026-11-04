@@ -1,0 +1,11 @@
+BRIDGE_3LEAVES_PREDICTION|version=1|locked_before_code=1|t=1,2,3|arms=TGV,SCR,NULL|source=results/2026-10-30-noise-test|P=1000999|K=81|grid=24|blocks_per_axis=3|block_side=8|json=0
+PRED|id=LEAF1|t=1|records=3|expect=PASS|contains=projected_81,signed_81,TG_total,Clay_total,mismatch_count,source_hash|json=0
+PRED|id=LEAF2|t=2|records=3|expect=PASS|contains=projected_81,signed_81,TG_total,Clay_total,mismatch_count,source_hash|json=0
+PRED|id=LEAF3|t=3|records=3|expect=PASS|contains=projected_81,signed_81,TG_total,Clay_total,mismatch_count,source_hash|json=0
+PRED|id=PROJECTION|claim=each_signed_block_momentum_recovered_without_wrap_at_L24|bound_abs_component=9216|expect=PASS|json=0
+PRED|id=CONSERVE|claim=unforced_TG_global_momentum_constant_each_tick_and_Clay_nu0_Q_constant|expect=PASS|json=0
+PRED|id=NULL|claim=TG_NULL_zero_momentum_and_Clay_nu0_zero_state_through_three_steps|expect=PASS|json=0
+PRED|id=TGV_REPLAY|claim=sealed_TG_initial_E2_746496_and_KJ_t0_106496_t1_382752_t2_537904_t3_573144|expect=PASS|json=0
+PRED|id=NEGATIVE|claim=corrupt_gate_or_nontrit_state_rejected_nonzero|expect=PASS|json=0
+PRED|id=NONCOMMUTE|claim=TGV_81_projection_after_1_2_3_TG_steps_does_not_equal_Clay_nu0_dynamics_on_projected_initial|expect=DIFFERENT|json=0
+PRED|id=INTERPRETATION|claim=three_leaves_are_kinematic_observation_not_PDE_or_dynamical_conjugacy|expect=OPEN|json=0
