@@ -6,6 +6,11 @@
 [![Finite field](https://img.shields.io/badge/Field-%E2%84%A4%2F1%2C000%2C999-303d92)](docs/CLASY-X3-PROOF.md)
 [![Math scope](https://img.shields.io/badge/continuum%20PDE-OPEN-965d2d)](#scope-and-corrections)
 
+
+**Companion fluid-dynamics track:** [Taylor–Green D3Q27 lattice gas](https://github.com/JesseBrown1980/Taylor_green_regularity-resolved-and-solved) · [Clasy X3 independent evaluation](https://github.com/JesseBrown1980/Clasy-repo-x-3-) · **[Read the cross-repository comparison and proposed verification bridge](docs/BRIDGE-TAYLOR-GREEN.md)**.
+
+> The Clay/Clasy finite-field shell model and Taylor–Green finite-grid lattice gas are independently defined systems. **Cross-repo navigation is linked; a mathematical state conversion is still OPEN.** Neither discrete result establishes continuum Navier–Stokes regularity.
+
 <table><tr>
 <td width="50%"><img src="assets/finite-shell-vortex.svg" alt="Original abstract blue and cyan luminous vortex, an illustrative fluid-dynamics motif" width="100%"></td>
 <td width="50%"><img src="assets/finite-shell-spectral-lattice.svg" alt="Original cyan and green finite-field spectral wireframe, an illustrative mathematical motif" width="100%"></td>
