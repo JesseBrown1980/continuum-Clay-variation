@@ -1,89 +1,127 @@
-# Continuum Clay Variation: 81-Mode 3-Adic Shell Model & Omega/Omnibit Invariant Architecture
+# Continuum Clay Variation
+### 81-mode finite-field shell system · exact algebra · independently checked implementation
 
-[![Rust](https://img.shields.io/badge/rust-1.81%2B-orange.svg)](https://www.rust-lang.org)
-[![Clippy](https://img.shields.io/badge/clippy-0%20warnings%20%7C%20-D%20warnings-brightgreen.svg)]()
-[![Tests](https://img.shields.io/badge/tests-29%20passed%20%7C%200%20failed-brightgreen.svg)]()
-[![Architecture](https://img.shields.io/badge/arch-n%20x%203%20x%203%20x%203%20(K%3D81)-blue.svg)]()
-[![Arithmetic](https://img.shields.io/badge/arithmetic-integer%20only%20(no%20float)-purple.svg)]()
-[![Format](https://img.shields.io/badge/format-0%20JSON%20%7C%20HBP%20canon-darkred.svg)]()
-[![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)]()
+[![Rust 1.81](https://img.shields.io/badge/Rust-1.81-0b1320?logo=rust)](rust-toolchain.toml)
+[![Clasy X3](https://img.shields.io/badge/Clasy%20X3-73%20tests%20recorded-138a9d)](https://github.com/JesseBrown1980/Clasy-repo-x-3-)
+[![Finite field](https://img.shields.io/badge/Field-%E2%84%A4%2F1%2C000%2C999-303d92)](docs/CLASY-X3-PROOF.md)
+[![Math scope](https://img.shields.io/badge/continuum%20PDE-OPEN-965d2d)](#scope-and-corrections)
 
-> **The 81-Mode Continuum Extension:** Mapping fluid turbulence across an 81-mode geometric 3-ladder ($k_n = 3^n$, $n \in [0, 80]$) extends Asolaria's 3-adic balanced-ternary tribit space into an $n \times 3 \times 3 \times 3$ (4D hypercube, $K = 3^4 = 81$) lattice. Wavenumbers reach $k_{80} = 3^{80} \approx 1.47 \times 10^{38}$, bridging 38 orders of magnitude across spatial scales into the continuum limit. Under the 81-point spherical Number-Theoretic Transform (NTT) prism over prime $P = 1\,000\,999$ ($81 \mid (P - 1)$), the uncomputed DC center $X[0] = \text{prism81}(NL)[0] \equiv \sum_{n=0}^{80} NL_n \equiv 0 \pmod P$ is topologically invariant under convective energy transfer. Viscous drift follows an exact, all-time affine law $Q(u_t) \equiv Q(u_0) - t \cdot \nu \cdot D_{81} \pmod P$ ($D_{81} = 900\,647$), conserving $I = Q + t\nu D_{81}$ for all $t \ge 0$.
+<table><tr>
+<td width="50%"><img src="assets/finite-shell-vortex.svg" alt="Original abstract blue and cyan luminous vortex, an illustrative fluid-dynamics motif" width="100%"></td>
+<td width="50%"><img src="assets/finite-shell-spectral-lattice.svg" alt="Original cyan and green finite-field spectral wireframe, an illustrative mathematical motif" width="100%"></td>
+</tr></table>
 
----
+*Original repository-owned vector illustrations. These depict the research themes, not measured velocity fields or actual experiment plots.*
 
-## 1. Architectural Highlights
+**This repository defines an exact, finite 81-mode nonlinear dynamical system over a prime field.** The companion [Clasy X3 independent evaluation](https://github.com/JesseBrown1980/Clasy-repo-x-3-) corrects the model's interpretation, supplies independent arithmetic oracles and negative controls, and evaluates stored Host8 rooms. This update ports those checks into the originating Clay repository **without changing the implemented shell update**.
 
-1. **81 Modes ($K = 81 = 3^4$):**
-   - 81 geometric rungs: $k_n = 3^n$, with $k_0 = 1$ up to $k_{80} = 3^{80} \approx 1.47 \times 10^{38}$.
-   - Full 4D hypercube discretization ($3 \times 3 \times 3 \times 3$).
-2. **Prime Field $\mathbb{F}_P$ ($P = 1\,000\,999$):**
-   - $P$ is prime and $81 \mid (P - 1)$ ($P - 1 = 81 \times 12\,358$).
-   - Primitive 81st root of unity: $W = 30\,722$, $W^{81} \equiv 1 \pmod P$.
-   - Cyclotomic boundary closure: $\sum_{j=0}^{80} W^j \equiv 0 \pmod P$.
-3. **Exact 81-Point Spherical NTT Prism:**
-   - Float-free integer Number-Theoretic Transform: `prism81` and `unprism81`.
-   - Exact bijection: `unprism81(&prism81(&x)) == x` for all vectors in $\mathbb{F}_P^{81}$.
-4. **$n \times 3 \times 3 \times 3$ Omega / Omnibit Room Rotor:**
-   - 81 balanced trits packed across 3 rungs of 27 trits:
-     - **Alpha stub** ($n \in [0, 26]$): low macro-scale rimes.
-     - **Omega stub** ($n \in [27, 53]$): inertial cascade.
-     - **Omnibit stub** ($n \in [54, 80]$): ultra-high viscous barrier.
-   - Dual-mode verification: direct streaming from Host8 disk sectors (`D:/ASOLARIA-HOST8-ROOMS-100G`) and in-memory procedural synthesis.
-5. **Strict Hardware & Toolchain Guarantees:**
-   - Pinned to **Rust 1.81.0**.
-   - Clippy clean: 0 warnings under `--all-targets -- -D warnings`.
-   - Integer only (`#![deny(clippy::float_arithmetic, clippy::float_cmp, clippy::cast_precision_loss)]`).
-   - Zero JSON, zero Node, zero V8; pure positional-KV HBP format.
+> **Scope:** The all-time modular invariant is a theorem **of this specific finite-field map**. It is not a proof of Navier–Stokes regularity, viscosity-driven physical damping, or convergence to a continuum PDE. The original research name is retained for provenance.
 
----
+## The exact model
 
-## 2. Invariants & Proof Summary
+| Parameter | Definition |
+|---|---|
+| Field | \(\mathbb F_P\), \(P=1{,}000{,}999\) (prime) |
+| Coordinates | \(u=(u_0,\dots,u_{80})\in\mathbb F_P^{81}\) |
+| Geometric labels | \(k_n=3^n\), \(0\le n\le80\) |
+| Primitive 81st root | \(W=30{,}722\pmod P\) |
+| Transform | Reversible 81-point number-theoretic transform |
+| Drift constant | \(D_{81}=\sum_{n=0}^{80}9^n=900{,}647\pmod P\) |
 
-| Theoretical Invariant | Formula | Verification Scope | Status |
-|---|---|---|:---:|
-| **Triad Convective Flux Conservation** | $\sum_{n=0}^{80} NL_n \equiv 0 \pmod P$ | All states in $\mathbb{F}_P^{81}$ & rooms | **PASSED** |
-| **Law 0 DC Center Invariant** | $X[0] = \text{prism81}(NL)[0] \equiv 0 \pmod P$ | 81-point spherical NTT prism | **PASSED** |
-| **Law 20 Cyclotomic Closure** | $\sum_{j=0}^{80} W^j \equiv 0 \pmod P$ | Spherical prism boundary | **PASSED** |
-| **Viscous Dissipation Constant** | $D_{81} = \sum_{n=0}^{80} 9^n \equiv 900\,647 \pmod P$ | Geometric identity $8 D \equiv 9^{81} - 1$ | **PASSED** |
-| **All-Time Conserved Quantity** | $I(t, u_t) = Q(u_t) + t\nu D_{81} \equiv Q(u_0) \pmod P$ | Conserved along all orbits for all $t \ge 0$ | **PASSED** |
-| **Inviscid Conservation ($\nu = 0$)** | $Q(u_t) \equiv Q(u_0) \pmod P$ | Thousands of steps without dissipation | **PASSED** |
-| **NTT-81 Invertibility** | $\text{unprism81}(\text{prism81}(x)) \equiv x$ | Bit-exact integer round-trip | **PASSED** |
-| **Omega / Omnibit Rotor Invariants** | Triad & Center conservation on 81-trit rooms | Host8 sectors & procedural ensembles | **PASSED** |
+For the interior coordinates (\(1\le n\le79\)) define
 
-Read the full mathematical treatise and PDE scaling analysis in **[PROOF.md](PROOF.md)**.
+\[
+NL_n(u)=u_n(u_{n+1}-u_{n-1})\pmod P.
+\]
 
----
+Let \(S\) be the **canonical integer residue** of the sum of the interior \(NL_n\). Set
 
-## 3. Test Suites & Measured Results
+\[
+NL_0=-\lfloor S/2\rfloor,\qquad
+NL_{80}=-S+\lfloor S/2\rfloor \pmod P.
+\]
 
-The complete gate runs across 29 test declarations:
-- **Canonical Tribit Unit Tests (vendored, unchanged):** 11 passed, 0 failed.
-- **Upstream 27-Mode Invariant Tests:** 8 passed, 0 failed.
-- **81-Mode Contract Tests ([`tests/contract81.rs`](tests/contract81.rs)):** 10 passed, 0 failed.
-- **Release Verifier ([`src/bin/verify.rs`](src/bin/verify.rs)):** 100,000 closed-form step matches, 4 full-period orbits of $1\,000\,999$ steps with 0 violations.
-- **81-Mode Room Rotor Sweep ([`src/bin/sweep_rooms.rs`](src/bin/sweep_rooms.rs)):** verified against 81-mode ensembles.
+Those endpoints make \(\sum_{n=0}^{80}NL_n=0\pmod P\) **for every state**, by construction. One step is
 
----
+\[
+u_n(t+1)=u_n(t)+NL_n(u(t))-\nu\,9^n\pmod P.
+\]
 
-## 4. Reproducing Locally
+Defining \(Q(u)=\sum_n u_n\pmod P\), summing the update proves the **all-time theorem**:
 
-### Run Standard Gate
-Requires Linux/WSL with Rust 1.81.0:
-```bash
-rustup toolchain install 1.81.0 --profile minimal --component clippy
-bash scripts/gate.sh
-```
+\[
+\boxed{Q(u(t))+t\nu D_{81}=Q(u(0))\pmod P,\qquad t\in\mathbb Z_{\ge0}.}
+\]
 
-### Launch the 81-Mode Room Sweep
-```bash
-cargo +1.81.0 run --release --bin sweep_rooms -- --rooms 5000000 --threads 8
-```
+The zero-frequency transform coordinate of \(NL\) is also identically zero. The NTT is invertible, but **the nonlinear time-step map need not be injective**.
 
----
+## What Clasy contributed
 
-## 5. Provenance & Attribution
+The independent Clasy evaluation, pinned to [upstream commit 12b1bd4](https://github.com/JesseBrown1980/continuum-Clay-variation/commit/12b1bd4ed407a9d7e622182337f54d84daaebc12), supplies:
 
-- **Theory & Architecture:** Jesse Daniel Brown (`JesseBrown1980` / `OP-JESSE`) & Rayssa Chiqueto (`OP-RAYSSA`)
-- **Environment:** Asolaria Federation / Host8 100G-200G Room Rotor / ASI OS Native Fabric
-- **Core Primitives:** 81-Mode 3-Adic Shell Model / 81-Point Spherical NTT Prism / $n \times 3 \times 3 \times 3$ Omega-Omnibit Room Architecture / Law 0 DC Center Invariant / Law 20 Spherical Closure
+- **Independent integer arithmetic oracles** for the field, NTT, nonlinear endpoints, time evolution, period, and previously missed edge cases: [tests/audit81.rs](tests/audit81.rs).
+- **Fail-closed I/O tests** covering absent stores, truncated sectors, invalid CLI parameters, endianness and short reads: [tests/fail_closed.rs](tests/fail_closed.rs).
+- **Read-only 81/243-width Host8 auditor**, with complete-coverage accounting on its selected windows: [src/host8_audit.rs](src/host8_audit.rs) and [src/bin/audit_rooms.rs](src/bin/audit_rooms.rs).
+- **The existing 3/27/243 transition-lattice contract**, brought into this repository with its two vendored lattice source files: [src/bin/sector_contract.rs](src/bin/sector_contract.rs).
+- **Corrected mathematical scope**, including a dynamical non-injectivity counterexample and unreduced energy cautions: [Clasy X3 proof](docs/CLASY-X3-PROOF.md).
+
+### Reported independent verification (Clasy, October 23, 2026)
+
+| Recorded check | Clasy result | Qualification |
+|---|---:|---|
+| Rust tests | **73 passed, 0 failed** | Recorded in the [Clasy test log](https://github.com/JesseBrown1980/Clasy-repo-x-3-/blob/main/logs/x3/tests.log); this branch has its own CI |
+| NTT round trips | **10,000** | Exact finite-field equality |
+| Full-period model trajectories | **4 × 1,000,999 steps** | Total-period law, not full-state periodicity |
+| Scalar-phase census | **1,000,999 distinct residues** | When \(\nu\not\equiv0\pmod P\) |
+| Host8 room reads | **1,093,500** | Sampled windows over 375 physical sectors, not all 37.5 billion rooms |
+| Selected state transitions | **1,093,500** | Read-only input; three steps per ensemble |
+| 3/27/243 lattice keys | **4,095** | In-process contract callbacks, not external worker launches |
+
+The figures above are **historical Clasy receipts**, not numbers newly claimed to have run on this PR. See the original [Clasy results](https://github.com/JesseBrown1980/Clasy-repo-x-3-/blob/main/RESULTS.md) and [receipts](https://github.com/JesseBrown1980/Clasy-repo-x-3-/tree/main/receipts/x3).
+
+## Scope and corrections
+
+| Statement | Status |
+|---|---|
+| Explicit 81-mode map, NTT constants, endpoint closure | **DERIVED** for the defined system |
+| Compensated sum \(Q+t\nu D_{81}\) | **DERIVED for all integer times** |
+| Scalar total visits every field residue | **DERIVED only when** \(\nu\not\equiv0\pmod P\) |
+| Full-state time-step injectivity | **FALSE**; Clasy gives a two-state counterexample |
+| Quadratic kinetic-energy conservation | **NOT IMPLIED** by linear total cancellation |
+| Standard Navier–Stokes viscous damping | **NOT IMPLEMENTED**: the \(-\nu9^n\) term is additive, independent of \(u_n\) |
+| Physical divergence-free velocity reconstruction | **OPEN** |
+| Consistency and convergence to 3D Navier–Stokes | **OPEN** |
+| Continuum regularity / Clay Millennium claim | **OPEN** |
+
+The field modulus bounds residues; it does **not** bound physical Sobolev or vorticity norms uniformly as model resolution grows. A 243-room read width is **not** a primitive 243-point NTT in this field.
+
+## Reproduce
+
+The ported core suite is designed to run **without** a Host8 disk. Requires Rust 1.81, Clippy and rustfmt:
+
+~~~bash
+rustup toolchain install 1.81.0 --profile minimal --component clippy --component rustfmt
+bash scripts/x3-ci.sh
+~~~
+
+The core gate formats, lints, builds, and runs all tests. To run the full-period verifier as well:
+
+~~~bash
+RUN_FULL_VERIFY=1 bash scripts/x3-ci.sh
+~~~
+
+For the **optional real Host8 storage audit**, on a machine with the canonical 300 GB room store:
+
+~~~bash
+bash scripts/x3-gate.sh /mnt/d/ASOLARIA-HOST8-ROOMS-300G
+~~~
+
+The Host8 workflow does not generate substitute rooms, and fails if the required store is missing or malformed. The historical standalone rotor sweep remains available via [scripts/gate.sh](scripts/gate.sh).
+
+## Research route
+
+A physical correspondence would require a divergence-free field reconstruction and boundary/domain specification, a correctly modeled velocity-dependent viscosity term and forcing, consistency estimates, convergence as resolution increases, and **unreduced** norm/continuation bounds. These remain research tasks rather than completed claims.
+
+**Documents:** [Corrected proof](docs/CLASY-X3-PROOF.md) · [Clasy measured results](https://github.com/JesseBrown1980/Clasy-repo-x-3-/blob/main/RESULTS.md) · [Original proof and historical claims](PROOF.md) · [Current tests](tests/audit81.rs) · [Original Clasy repository](https://github.com/JesseBrown1980/Clasy-repo-x-3-).
+
+**Provenance:** Research and architecture attributed to Jesse Daniel Brown and Rayssa Chiqueto. Clasy X3 implementation and independent evaluation are preserved by reference to their [source repository](https://github.com/JesseBrown1980/Clasy-repo-x-3-). The two SVG images are illustrative original artwork, not evidence.
