@@ -21,39 +21,39 @@
 
 | Parameter | Definition |
 |---|---|
-| Field | \(\mathbb F_P\), \(P=1{,}000{,}999\) (prime) |
-| Coordinates | \(u=(u_0,\dots,u_{80})\in\mathbb F_P^{81}\) |
-| Geometric labels | \(k_n=3^n\), \(0\le n\le80\) |
-| Primitive 81st root | \(W=30{,}722\pmod P\) |
+| Field | $\mathbb F_P$, $P=1{,}000{,}999$ (prime) |
+| Coordinates | $u=(u_0,\dots,u_{80})\in\mathbb F_P^{81}$ |
+| Geometric labels | $k_n=3^n$, $0\le n\le80$ |
+| Primitive 81st root | $W=30{,}722\pmod P$ |
 | Transform | Reversible 81-point number-theoretic transform |
-| Drift constant | \(D_{81}=\sum_{n=0}^{80}9^n=900{,}647\pmod P\) |
+| Drift constant | $D_{81}=\sum_{n=0}^{80}9^n=900{,}647\pmod P$ |
 
-For the interior coordinates (\(1\le n\le79\)) define
+For the interior coordinates ($1\le n\le79$) define
 
-\[
+$$
 NL_n(u)=u_n(u_{n+1}-u_{n-1})\pmod P.
-\]
+$$
 
-Let \(S\) be the **canonical integer residue** of the sum of the interior \(NL_n\). Set
+Let $S$ be the **canonical integer residue** of the sum of the interior $NL_n$. Set
 
-\[
+$$
 NL_0=-\lfloor S/2\rfloor,\qquad
 NL_{80}=-S+\lfloor S/2\rfloor \pmod P.
-\]
+$$
 
-Those endpoints make \(\sum_{n=0}^{80}NL_n=0\pmod P\) **for every state**, by construction. One step is
+Those endpoints make $\sum_{n=0}^{80}NL_n=0\pmod P$ **for every state**, by construction. One step is
 
-\[
+$$
 u_n(t+1)=u_n(t)+NL_n(u(t))-\nu\,9^n\pmod P.
-\]
+$$
 
-Defining \(Q(u)=\sum_n u_n\pmod P\), summing the update proves the **all-time theorem**:
+Defining $Q(u)=\sum_n u_n\pmod P$, summing the update proves the **all-time theorem**:
 
-\[
+$$
 \boxed{Q(u(t))+t\nu D_{81}=Q(u(0))\pmod P,\qquad t\in\mathbb Z_{\ge0}.}
-\]
+$$
 
-The zero-frequency transform coordinate of \(NL\) is also identically zero. The NTT is invertible, but **the nonlinear time-step map need not be injective**.
+The zero-frequency transform coordinate of $NL$ is also identically zero. The NTT is invertible, but **the nonlinear time-step map need not be injective**.
 
 ## What Clasy contributed
 
@@ -72,7 +72,7 @@ The independent Clasy evaluation, pinned to [upstream commit 12b1bd4](https://gi
 | Rust tests | **73 passed, 0 failed** | Recorded in the [Clasy test log](https://github.com/JesseBrown1980/Clasy-repo-x-3-/blob/main/logs/x3/tests.log); this branch has its own CI |
 | NTT round trips | **10,000** | Exact finite-field equality |
 | Full-period model trajectories | **4 × 1,000,999 steps** | Total-period law, not full-state periodicity |
-| Scalar-phase census | **1,000,999 distinct residues** | When \(\nu\not\equiv0\pmod P\) |
+| Scalar-phase census | **1,000,999 distinct residues** | When $\nu\not\equiv0\pmod P$ |
 | Host8 room reads | **1,093,500** | Sampled windows over 375 physical sectors, not all 37.5 billion rooms |
 | Selected state transitions | **1,093,500** | Read-only input; three steps per ensemble |
 | 3/27/243 lattice keys | **4,095** | In-process contract callbacks, not external worker launches |
@@ -84,11 +84,11 @@ The figures above are **historical Clasy receipts**, not numbers newly claimed t
 | Statement | Status |
 |---|---|
 | Explicit 81-mode map, NTT constants, endpoint closure | **DERIVED** for the defined system |
-| Compensated sum \(Q+t\nu D_{81}\) | **DERIVED for all integer times** |
-| Scalar total visits every field residue | **DERIVED only when** \(\nu\not\equiv0\pmod P\) |
+| Compensated sum $Q+t\nu D_{81}$ | **DERIVED for all integer times** |
+| Scalar total visits every field residue | **DERIVED only when** $\nu\not\equiv0\pmod P$ |
 | Full-state time-step injectivity | **FALSE**; Clasy gives a two-state counterexample |
 | Quadratic kinetic-energy conservation | **NOT IMPLIED** by linear total cancellation |
-| Standard Navier–Stokes viscous damping | **NOT IMPLEMENTED**: the \(-\nu9^n\) term is additive, independent of \(u_n\) |
+| Standard Navier–Stokes viscous damping | **NOT IMPLEMENTED**: the $-\nu9^n$ term is additive, independent of $u_n$ |
 | Physical divergence-free velocity reconstruction | **OPEN** |
 | Consistency and convergence to 3D Navier–Stokes | **OPEN** |
 | Continuum regularity / Clay Millennium claim | **OPEN** |
