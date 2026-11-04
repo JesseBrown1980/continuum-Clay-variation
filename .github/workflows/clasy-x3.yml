@@ -1,0 +1,19 @@
+name: Clasy X3 portable verification
+on:
+  push:
+    branches: [ main, gpt6-clasy-x3-verification-readme-20261104 ]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  exact-core:
+    name: exact-core-rust-1.81
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout submitted commit
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Install pinned Rust 1.81.0 tools
+        run: rustup toolchain install 1.81.0 --profile minimal --component clippy --component rustfmt
+      - name: Portable Clasy X3 tests and lint
+        run: bash scripts/x3-ci.sh
