@@ -51,6 +51,15 @@ fi
 grep -q '^BRIDGE_FAIL|' "$TMP/err"
 printf 'NEGATIVE|nontrit=REJECTED|gate_corruption=REJECTED|json=0\n' > "$OUTPUT/NEGATIVE.hbp"
 (cd "$OUTPUT" && sha256sum LEAF-1.hbp LEAF-2.hbp LEAF-3.hbp LEAVES.hbi RUN.hbp NEGATIVE.hbp > SHA256SUMS)
+python3 "$ROOT/bridge/taylor-green/verify_receipts.py" "$OUTPUT"
+mkdir -p "$TMP/attest"
+cp "$OUTPUT/LEAF-1.hbp" "$OUTPUT/LEAF-2.hbp" "$OUTPUT/LEAF-3.hbp" "$OUTPUT/LEAVES.hbi" "$OUTPUT/RUN.hbp" "$OUTPUT/NEGATIVE.hbp" "$OUTPUT/SHA256SUMS" "$TMP/attest/"
+printf '\377' | dd of="$TMP/attest/LEAF-1.hbp" bs=1 seek=0 conv=notrunc status=none
+if python3 "$ROOT/bridge/taylor-green/verify_receipts.py" "$TMP/attest" >"$TMP/audit-out" 2>"$TMP/audit-err"; then
+  echo "corrupted leaf passed independent audit" >&2; exit 1
+fi
+grep -q '^INDEPENDENT_BRIDGE_AUDIT|status=FAIL|' "$TMP/audit-err"
+
 cat "$OUTPUT/LEAVES.hbi"
 tail -n 1 "$OUTPUT/RUN.hbp"
 echo 'BRIDGE_GATE|steps=3|leaves=3|arms=3|input_sha256=PASS|tests=PASS|clippy=PASS|negative_controls=PASS|chain=PASS|status=PASS|json=0'
