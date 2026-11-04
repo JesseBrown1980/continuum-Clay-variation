@@ -16,9 +16,9 @@
 //! 6. Real-norm vs modular residue boundary audit.
 
 use continuum_clay_variation::{
-    conserved_invariant81, dissipation_weight81, drift_constant81,
-    predicted_step81, predicted_total81, prism81, shell_total81, sub_mod, unprism81,
-    OmegaOmnibitRoom, ShellModel81, SplitMix64, DRIFT81, K, P, W,
+    conserved_invariant81, dissipation_weight81, drift_constant81, predicted_step81,
+    predicted_total81, prism81, shell_total81, sub_mod, unprism81, OmegaOmnibitRoom, ShellModel81,
+    SplitMix64, DRIFT81, K, P, W,
 };
 use std::process::ExitCode;
 

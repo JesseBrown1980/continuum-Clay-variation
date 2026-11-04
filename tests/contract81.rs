@@ -8,9 +8,9 @@
 //! Mathematical contract tests for the 81-Mode Continuum Clay Variation.
 
 use continuum_clay_variation::{
-    conserved_invariant81, dissipation_weight81, drift_constant81,
-    predicted_step81, predicted_total81, prism81, shell_total81, sub_mod, unprism81,
-    OmegaOmnibitRoom, ShellModel81, SplitMix64, DRIFT81, K, P, W, W_INV,
+    conserved_invariant81, dissipation_weight81, drift_constant81, predicted_step81,
+    predicted_total81, prism81, shell_total81, sub_mod, unprism81, OmegaOmnibitRoom, ShellModel81,
+    SplitMix64, DRIFT81, K, P, W, W_INV,
 };
 
 fn sum_mod(x: &[u64; K]) -> u64 {
@@ -40,7 +40,10 @@ fn test_cyclotomic_boundary_closure_and_root_order() {
         cyc = (cyc + term) % P;
         term = (term * W) % P;
     }
-    assert_eq!(cyc, 0, "Law 20 spherical boundary closure must hold: sum W^j = 0 mod P");
+    assert_eq!(
+        cyc, 0,
+        "Law 20 spherical boundary closure must hold: sum W^j = 0 mod P"
+    );
 }
 
 #[test]
@@ -50,7 +53,10 @@ fn test_81_point_spherical_ntt_roundtrip_is_exact() {
         let x = rng.state81();
         let spectrum = prism81(&x);
         let back = unprism81(&spectrum);
-        assert_eq!(x, back, "NTT-81 spherical prism round-trip must be bit-exact");
+        assert_eq!(
+            x, back,
+            "NTT-81 spherical prism round-trip must be bit-exact"
+        );
     }
 }
 
@@ -80,7 +86,11 @@ fn test_triad_non_linear_flux_sums_identically_to_zero_across_states() {
     for u in &states {
         let model = ShellModel81 { u: *u, nu: 1 };
         let nl = model.non_linear_transfer();
-        assert_eq!(sum_mod(&nl), 0, "Non-linear convective transfer must sum to 0 mod P");
+        assert_eq!(
+            sum_mod(&nl),
+            0,
+            "Non-linear convective transfer must sum to 0 mod P"
+        );
 
         let spec = prism81(&nl);
         assert_eq!(spec[0], 0, "Law 0 DC center X[0] must be strictly 0 mod P");
@@ -153,7 +163,10 @@ fn test_omega_omnibit_room_serialization_and_invariants() {
 
 #[test]
 fn test_scope_positive_viscosity_moves_zero_state() {
-    let mut model = ShellModel81 { u: [0u64; K], nu: 1 };
+    let mut model = ShellModel81 {
+        u: [0u64; K],
+        nu: 1,
+    };
     model.step();
     assert_eq!(model.u[0], P - 1);
     assert!(model.u.iter().all(|&x| x != 0));
@@ -173,7 +186,10 @@ fn test_scope_linear_conservation_does_not_imply_quadratic_energy_cancellation()
         .iter()
         .zip(nl.iter())
         .fold(0u64, |acc, (&x, &y)| (acc + (x * y) % P) % P);
-    assert_ne!(dot, 0, "sum u_n * NL_n is not zero for linear balance transfer");
+    assert_ne!(
+        dot, 0,
+        "sum u_n * NL_n is not zero for linear balance transfer"
+    );
 }
 
 #[test]

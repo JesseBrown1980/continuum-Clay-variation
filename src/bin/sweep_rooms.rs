@@ -110,7 +110,9 @@ fn print_usage() {
     println!("  --threads <T>      Number of parallel worker threads (default: 8)");
     println!("  --sector <PATH>    Path to a specific .rooms sector file");
     println!("  --no-step          Skip time-stepping (validate triad & DC prism only)");
-    println!("  --full-sector      Verify full sector files (100M rooms / 33.3M 81-mode ensembles)");
+    println!(
+        "  --full-sector      Verify full sector files (100M rooms / 33.3M 81-mode ensembles)"
+    );
     println!("  --nu <NU>          Viscosity parameter (default: 1)");
     println!("  --help             Display this help message");
 }
@@ -172,9 +174,7 @@ fn main() {
     );
 
     let default_sector_path = "D:/ASOLARIA-HOST8-ROOMS-100G/sector-000.rooms";
-    let sector_to_open = specific_sector
-        .as_deref()
-        .unwrap_or(default_sector_path);
+    let sector_to_open = specific_sector.as_deref().unwrap_or(default_sector_path);
 
     let has_disk_file = Path::new(sector_to_open).exists();
     if has_disk_file {
@@ -193,7 +193,8 @@ fn main() {
 
     for t in 0..thread_count {
         let count = rooms_per_thread + if t == 0 { remainder_rooms } else { 0 };
-        let offset_ensembles = t as u64 * rooms_per_thread + if t == 0 { 0 } else { remainder_rooms };
+        let offset_ensembles =
+            t as u64 * rooms_per_thread + if t == 0 { 0 } else { remainder_rooms };
         let sector_path_clone = sector_to_open.to_string();
         let verified = Arc::clone(&verified_counter);
         let violations = Arc::clone(&violation_counter);

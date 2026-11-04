@@ -31,6 +31,9 @@ pub mod canonical_tribit;
 
 pub use canonical_tribit::Zero;
 
+/// Read-only Host8 evaluation adapter; the shell equations above remain unchanged.
+pub mod host8_audit;
+
 // ---------------------------------------------------------------- Constants
 
 /// The 81-mode prime field modulus: P = 1_000_999 (prime, 81 | P - 1).
@@ -337,7 +340,10 @@ pub fn predicted_step81(u: &[u64; K], nu: u64) -> [u64; K] {
     let nu = nu % P;
     let mut out = [0u64; K];
     for n in 0..K {
-        out[n] = sub_mod(add_mod(u[n] % P, nl[n]), mul_mod(nu, dissipation_weight81(n)));
+        out[n] = sub_mod(
+            add_mod(u[n] % P, nl[n]),
+            mul_mod(nu, dissipation_weight81(n)),
+        );
     }
     out
 }
