@@ -332,7 +332,7 @@ fn run(args: &[String]) -> Result<(), String> {
         return Err("forced Clay zero moved unexpectedly little".into());
     }
     println!("BRIDGE_HEADER|model=TG24_D3Q27_to_actual_Clay81|steps=3|arms=TGV,SCR,NULL|blocks=3x3x3|registers=81|gates={}|P={P}|source=2026-10-30-noise-test|json=0", gates.len());
-    for t in 1..=STEPS {
+    for (t, expected_tgv) in TG_EXPECTED.iter().enumerate().skip(1).take(STEPS) {
         for (i, label) in labels.iter().enumerate() {
             let old_state = states[i].clone();
             step_tg(&mut states[i], t - 1, &gates, &v);
@@ -345,7 +345,7 @@ fn run(args: &[String]) -> Result<(), String> {
             }
             if *label == "TGV"
                 && [current.e2, current.kj, current.wj, current.amplitude]
-                    != TG_EXPECTED[t]
+                    != *expected_tgv
             {
                 return Err(format!("pinned TG result mismatch at t={t}"));
             }
