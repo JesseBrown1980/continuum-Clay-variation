@@ -1,0 +1,13 @@
+BRIDGE_PREDICTION|version=1|state=FROZEN_BEFORE_RUN|target=TaylorGreen-D3Q27-to-Clay81|grid=24|blocks=3x3x3|coordinates=81|modulus=1000999|arithmetic=integer_only|json=0
+PRED|id=INPUT|claim=initial_trits_and_collision_lut_are_sha256_pinned|expect=PASS|json=0
+PRED|id=BLOCK|claim=81_component_block_momenta_recovered_from_centered_residues|expect=PASS|json=0
+PRED|id=NTT|claim=Clay81_NTT_inverse_of_81_block_momentum_residues|expect=PASS|json=0
+PRED|id=SUM|claim=Clay_Q_of_projection_equals_sum_of_all_3_Taylor_global_momenta_mod_P|expect=PASS|json=0
+PRED|id=CONS|claim=unforced_Taylor_sum_and_Clay_nu0_sum_both_conserved_at_tick1|expect=PASS|json=0
+PRED|id=REPLAY|claim=independent_Taylor_first_step_matches_sealed_E2_746496_and_KJ_382752|expect=PASS|json=0
+PRED|id=NULL|claim=unforced_null_stays_unchanged_and_both_nu0_projection_steps_are_zero|expect=PASS|json=0
+PRED|id=NONINJECTIVE|claim=changing_one_rest_channel_occupancy_keeps_projection_but_changes_density|expect=PASS|json=0
+PRED|id=NONCOMMUTE|claim=TGV_projection_after_one_Taylor_tick_differs_from_Clay_nu0_step_of_projection|expect=DIFFERENT|json=0
+PRED|id=VISCOSITY|claim=Clay_nu1_of_zero_differs_from_Taylor_unforced_null_projection|expect=DIFFERENT|json=0
+PRED|id=NEGATIVE|claim=invalid_trits_or_corrupt_gate_input_is_rejected_nonzero|expect=PASS|json=0
+PRED|id=CONTINUUM|claim=no_conjugacy_or_PDE_consistency_is_established_by_this_conversion|expect=OPEN|json=0
